@@ -52,6 +52,11 @@ try:
     m1.metric("Plot Area", "65 Acres", "Total Site")
     m2.metric("Overall Progress", "88%", "MSP Linked")
     m3.metric("Total Manpower", f"{int(total_pax)} Pax", "Live Updates")
+
+    s1, s2 = st.columns(2)
+    s1.metric("Client Name", "HSCC (India) Limited", "Project Management")
+    s2.metric("Contractor Name", "Nyati Engineers & Consultants Pvt. Ltd. (NECPL)", "Project Execution")
+    
     st.divider()
 
     # --- DPR DATA ---
@@ -100,3 +105,4 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
+
