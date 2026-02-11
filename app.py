@@ -83,6 +83,7 @@ try:
 
     st.divider()
     st.write("### 👷 Manpower Breakdown")
+    
     chart_df = pd.DataFrame({
         "Category": df_labour_data.iloc[0:29, 2].astype(str).str.strip(), 
         "Pax": pd.to_numeric(df_labour_data.iloc[0:29, 13], errors='coerce').fillna(0)
@@ -90,9 +91,35 @@ try:
     chart_df = chart_df[~chart_df["Category"].str.lower().str.contains('manpower|nan|total')]
     chart_df = chart_df[chart_df["Pax"] > 0] 
 
-    fig_man = px.bar(chart_df, x="Category", y="Pax", text="Pax", color_discrete_sequence=['#0C2C55'])
-    fig_man.update_traces(textposition='outside', textfont=dict(color='black', weight='bold'))
-    fig_man.update_layout(xaxis_tickangle=-45, height=500, plot_bgcolor='rgba(0,0,0,0)')
+    fig_man = px.bar(
+        chart_df, 
+        x="Category", 
+        y="Pax", 
+        text="Pax", 
+        color_discrete_sequence=['#0C2C55']
+    )
+
+    fig_man.update_traces(
+        textposition='outside', 
+        textfont=dict(color='black', weight='bold')
+    )
+
+    fig_man.update_layout(
+        xaxis_tickangle=-45, 
+        height=600, 
+        plot_bgcolor='rgba(0,0,0,0)',
+        yaxis_title="Personnel Count",
+        xaxis_title=None,
+        xaxis=dict(
+            tickfont=dict(color='black', size=12, family='Arial Black') 
+        ),
+        yaxis=dict(
+            tickfont=dict(color='black', weight='bold')
+        )
+    )
+    
+    fig_man.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGray')
+    
     st.plotly_chart(fig_man, use_container_width=True)
 
     st.sidebar.success("✅ Live Data Connected")
