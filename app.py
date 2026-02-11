@@ -2,17 +2,14 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --- 1. SETTINGS ---
 st.set_page_config(page_title="GMC Jalgaon MIS", layout="wide", page_icon="https://www.nyatigroup.com/Nyati-logo-seo.png")
 
-# --- 2. GOOGLE SHEET IDs ---
 DPR_ID = "1rC8g812mywE_5rmNVTkBcBzjEsgzRT_G2m6olrGht9I"
 DLR_ID = "1nlWQjCqVvNJr7Syu701MVztEfYcGBH2K2r1NBsmE6tU"
 
 DPR_LINK = f"https://docs.google.com/spreadsheets/d/{DPR_ID}/export?format=xlsx"
 DLR_LINK = f"https://docs.google.com/spreadsheets/d/{DLR_ID}/export?format=xlsx"
 
-# --- 3. CSS (UI IMPROVEMENTS) ---
 st.markdown("""
     <style>
     header {visibility: hidden;}
@@ -24,7 +21,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 4. HEADER ---
 header_col1, header_col2, header_col3 = st.columns([1, 4, 1])
 with header_col1:
     st.image("https://www.govtjobsblog.in/wp-content/uploads/2023/08/HSCC.png", width=120) 
@@ -33,15 +29,12 @@ with header_col2:
 with header_col3:
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_SCCFqzFBiku7nsc76ytomhXnvIZ6rrHBQQ&s", width=120)
 
-# --- 5. DATA LOADING LOGIC (NO FILE UPLOADER) ---
 try:
-    # --- LABOUR DATA (DLR) ---
-    # Hum seedha DLR_LINK se read kar rahe hain
+    
     df_labour_data = pd.read_excel(DLR_LINK, skiprows=7) 
     df_labour_data = df_labour_data.dropna(subset=[df_labour_data.columns[1]])
     total_pax = pd.to_numeric(df_labour_data.iloc[:, 12], errors='coerce').sum()
 
-    # --- TOP METRICS ---
     st.markdown("### 🏗️ Project Overview")
     d1, d2, d3 = st.columns(3)
     d1.metric("Start Date", "16 Mar 2023", "Project Start")
@@ -56,20 +49,17 @@ try:
     s1, s2 = st.columns(2)
     s1.metric("Client Name", "HSCC (India) Limited", "Project Management")
     s2.metric("Contractor Name", "Nyati Engineers & Consultants Pvt. Ltd. (NECPL)", "Project Execution")
-    
+
     st.divider()
 
-    # --- DPR DATA ---
     xls_dpr = pd.ExcelFile(DPR_LINK)
     available_sheets = [s for s in xls_dpr.sheet_names if s.strip() not in ["Priority", "Development DPR"]]
     
-    # Sidebar mein sirf sheet selector rakha hai
     selected_sheet = st.sidebar.selectbox("Select Building View", available_sheets)
     st.sidebar.success("✅ Live Data Connected")
 
     search_query = st.text_input("🔍 Search Activity", "")
     
-    # DPR data loading
     df_dpr = pd.read_excel(DPR_LINK, sheet_name=selected_sheet, skiprows=6)
     df_dpr = df_dpr.dropna(how='all', axis=1).dropna(how='all', axis=0)
 
@@ -78,7 +68,6 @@ try:
 
     st.subheader(f"Detailed Progress: {selected_sheet}")
     
-    # Highlighting
     def highlight_completed(val):
         v_str = str(val).strip().lower()
         if v_str in ['completed', '1', '100%']:
@@ -87,7 +76,6 @@ try:
 
     st.dataframe(df_dpr.head(100).style.applymap(highlight_completed), use_container_width=True)
 
-    # --- MANPOWER CHART ---
     st.divider()
     st.write("### 👷 Manpower Breakdown")
     chart_df = pd.DataFrame({
@@ -105,4 +93,3 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
-
