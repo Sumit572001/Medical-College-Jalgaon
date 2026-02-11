@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # 1. Page Config
-st.set_page_config(page_title="GMC Jalgaon MIS", layout="wide", page_icon="🏗️")
+st.set_page_config(page_title="GMC Jalgaon MIS", layout="wide", page_icon="https://www.nyatigroup.com/Nyati-logo-seo.png")
 
 
 # --- CSS FOR UI FIXES ---
@@ -185,4 +185,5 @@ if dpr_file and dlr_file:
 
 else:
     st.info("👈 Sidebar mein 'Browse Files' par click karke DPR aur DLR Excel upload karein.")
+
 
