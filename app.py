@@ -114,7 +114,7 @@ try:
             tickfont=dict(color='black', size=12, family='Arial Black') 
         ),
         yaxis=dict(
-            tickfont=dict(color='black', weight='bold')
+            tickfont=dict(color='black')
         )
     )
     
@@ -127,3 +127,4 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
+
