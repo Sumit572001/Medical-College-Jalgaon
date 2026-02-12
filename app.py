@@ -105,16 +105,21 @@ try:
     )
 
     fig_man.update_layout(
+        template='plotly_white',  # Ye dashboard ko white hi rakhega
         xaxis_tickangle=-45, 
         height=600, 
         plot_bgcolor='rgba(0,0,0,0)',
-        yaxis_title="Personnel Count",
+        paper_bgcolor='rgba(0,0,0,0)', # Outer background bhi white rakhega
+        # Y-axis (Personnel Count)
+        yaxis_title=dict(text="Personnel Count", font=dict(color='black', size=14)),
         xaxis_title=None,
         xaxis=dict(
-            tickfont=dict(color='black', size=12, family='Arial Black') 
+            # X-axis ke names ko semi-bold (weight:600)
+            tickfont=dict(color='black', size=11, family='Arial', weight=600) 
         ),
         yaxis=dict(
-            tickfont=dict(color='black')
+            # Side ke numbers ko semi-bold
+            tickfont=dict(color='black', weight=600)
         )
     )
     
