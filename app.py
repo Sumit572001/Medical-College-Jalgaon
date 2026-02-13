@@ -61,15 +61,11 @@ try:
     if not available_sheets:
         available_sheets = [s for s in xls_dpr.sheet_names if s.strip() not in ["Priority", "Development DPR"]]
 
+    # Yahan humne sirf selectbox rakha hai, search box hata diya hai
     selected_sheet = st.selectbox("📂 Select Building View", available_sheets)
-    
-    search_query = st.text_input("🔍 Search Activity", "")
     
     df_dpr = pd.read_excel(DPR_LINK, sheet_name=selected_sheet, skiprows=6)
     df_dpr = df_dpr.dropna(how='all', axis=1).dropna(how='all', axis=0)
-
-    if search_query:
-        df_dpr = df_dpr[df_dpr.iloc[:, 1].astype(str).str.contains(search_query, case=False, na=False)]
 
     st.subheader(f"Detailed Progress: {selected_sheet}")
     
@@ -105,20 +101,18 @@ try:
     )
 
     fig_man.update_layout(
-        template='plotly_white',  # Ye dashboard ko white hi rakhega
+        template='plotly_white',
         xaxis_tickangle=-45, 
         height=600, 
         plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)', # Outer background bhi white rakhega
-        # Y-axis (Personnel Count)
+        paper_bgcolor='rgba(0,0,0,0)', 
+        
         yaxis_title=dict(text="Personnel Count", font=dict(color='black', size=14)),
         xaxis_title=None,
         xaxis=dict(
-            # X-axis ke names ko semi-bold (weight:600)
             tickfont=dict(color='black', size=11, family='Arial', weight=600) 
         ),
         yaxis=dict(
-            # Side ke numbers ko semi-bold
             tickfont=dict(color='black', weight=600)
         )
     )
@@ -132,4 +126,3 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
-
