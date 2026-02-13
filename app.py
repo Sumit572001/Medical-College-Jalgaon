@@ -54,7 +54,7 @@ try:
     # --- DPR DATA LOADING ---
     xls_dpr = pd.ExcelFile(DPR_LINK)
     
-    show_sheets = ["MCB & HB", "Residential", "Ancillary", "Development DPR Client"]
+    show_sheets = ["MCB & HB", "Residential", "Ancillary", "Development"]
     
     available_sheets = [s for s in xls_dpr.sheet_names if s.strip() in show_sheets]
     
@@ -126,3 +126,4 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
+
