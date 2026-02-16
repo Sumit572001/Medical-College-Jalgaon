@@ -38,12 +38,12 @@ try:
     d1, d2, d3 = st.columns(3)
     d1.metric("Start Date", "16 Mar 2023", "Project Start")
     d2.metric("End Date", "01 Apr 2026", "Completion")
-    d3.metric("Tender Cost", "625 Cr.", "Project Value")
+    d3.metric("Tender Cost", "625.20 Cr.", "Project Value")
     
     m1, m2, m3 = st.columns(3)
-    m1.metric("Plot Area", "65 Acres", "Total Site")
+    m1.metric("Plot Area", "66.29 Acres", "Total Site")
     m2.metric("Overall Progress", "88%", "MSP Linked")
-    m3.metric("Total Manpower", f"{int(total_pax)} Pax", "Live Updates")
+    m3.metric("Total Manpower", "432 Pax", "Live Updates")
 
     s1, s2 = st.columns(2)
     s1.metric("Client Name", "HSCC (India) Limited", "Project Management")
@@ -51,7 +51,6 @@ try:
 
     st.divider()
 
-    # --- DPR DATA LOADING ---
     xls_dpr = pd.ExcelFile(DPR_LINK)
     
     show_sheets = ["MCB & HB", "Residential", "Ancillary", "Development"]
@@ -61,11 +60,18 @@ try:
     if not available_sheets:
         available_sheets = [s for s in xls_dpr.sheet_names if s.strip() not in ["Priority", "Development DPR"]]
 
-    # Yahan humne sirf selectbox rakha hai, search box hata diya hai
     selected_sheet = st.selectbox("📂 Select Building View", available_sheets)
     
     df_dpr = pd.read_excel(DPR_LINK, sheet_name=selected_sheet, skiprows=6)
     df_dpr = df_dpr.dropna(how='all', axis=1).dropna(how='all', axis=0)
+
+    df_dpr = df_dpr.reset_index(drop=True) 
+    if selected_sheet in ["MCB & HB", "Residential", "Ancillary"]:
+        target_val = "External Paint"
+        mask = df_dpr.iloc[:, 1].astype(str).str.contains(target_val, case=False, na=False)
+        if mask.any():
+            stop_idx = mask.idxmax()
+            df_dpr = df_dpr.iloc[:stop_idx + 1] 
 
     st.subheader(f"Detailed Progress: {selected_sheet}")
     
@@ -74,7 +80,17 @@ try:
         if v_str in ['completed', '1', '100%']:
             return 'background-color: rgba(34, 139, 34, 0.2); color: #28a745; font-weight: bold;'
         return ''
+    
+    def format_value(val):
+        if isinstance(val, (int, float)):
+            if 0 < val <= 1: 
+                return f"{int(val * 100)}%"
+            elif val > 1: 
+                return f"{int(val)}%"
+        return val 
 
+    df_dpr = df_dpr.applymap(format_value)
+   
     st.dataframe(df_dpr.head(100).style.applymap(highlight_completed), use_container_width=True)
 
     st.divider()
@@ -126,4 +142,3 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
-
