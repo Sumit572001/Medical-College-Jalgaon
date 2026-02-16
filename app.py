@@ -52,9 +52,7 @@ try:
     st.divider()
 
     xls_dpr = pd.ExcelFile(DPR_LINK)
-    
     show_sheets = ["MCB & HB", "Residential", "Ancillary", "Development"]
-    
     available_sheets = [s for s in xls_dpr.sheet_names if s.strip() in show_sheets]
     
     if not available_sheets:
@@ -65,10 +63,13 @@ try:
     df_dpr = pd.read_excel(DPR_LINK, sheet_name=selected_sheet, skiprows=6)
     df_dpr = df_dpr.dropna(how='all', axis=1).dropna(how='all', axis=0)
 
+    # --- UPDATED: Pehla column (Sr. No) delete kar rahe hain ---
+    df_dpr = df_dpr.iloc[:, 1:] 
     df_dpr = df_dpr.reset_index(drop=True) 
+
     if selected_sheet in ["MCB & HB", "Residential", "Ancillary"]:
         target_val = "External Paint"
-        mask = df_dpr.iloc[:, 1].astype(str).str.contains(target_val, case=False, na=False)
+        mask = df_dpr.iloc[:, 0].astype(str).str.contains(target_val, case=False, na=False)
         if mask.any():
             stop_idx = mask.idxmax()
             df_dpr = df_dpr.iloc[:stop_idx + 1] 
@@ -89,6 +90,7 @@ try:
                 return f"{int(val)}%"
         return val 
 
+    # Formatting apply kar rahe hain
     df_dpr = df_dpr.applymap(format_value)
    
     st.dataframe(df_dpr.head(100).style.applymap(highlight_completed), use_container_width=True)
@@ -103,38 +105,17 @@ try:
     chart_df = chart_df[~chart_df["Category"].str.lower().str.contains('manpower|nan|total')]
     chart_df = chart_df[chart_df["Pax"] > 0] 
 
-    fig_man = px.bar(
-        chart_df, 
-        x="Category", 
-        y="Pax", 
-        text="Pax", 
-        color_discrete_sequence=['#0C2C55']
-    )
-
-    fig_man.update_traces(
-        textposition='outside', 
-        textfont=dict(color='black', weight='bold')
-    )
-
+    fig_man = px.bar(chart_df, x="Category", y="Pax", text="Pax", color_discrete_sequence=['#0C2C55'])
+    fig_man.update_traces(textposition='outside', textfont=dict(color='black', weight='bold'))
     fig_man.update_layout(
-        template='plotly_white',
-        xaxis_tickangle=-45, 
-        height=600, 
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)', 
-        
+        template='plotly_white', xaxis_tickangle=-45, height=600, 
+        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
         yaxis_title=dict(text="Personnel Count", font=dict(color='black', size=14)),
-        xaxis_title=None,
-        xaxis=dict(
-            tickfont=dict(color='black', size=11, family='Arial', weight=600) 
-        ),
-        yaxis=dict(
-            tickfont=dict(color='black', weight=600)
-        )
+        xaxis=dict(tickfont=dict(color='black', size=11, family='Arial', weight=600)),
+        yaxis=dict(tickfont=dict(color='black', weight=600))
     )
     
     fig_man.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGray')
-    
     st.plotly_chart(fig_man, use_container_width=True)
 
     st.sidebar.success("✅ Live Data Connected")
