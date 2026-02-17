@@ -63,7 +63,7 @@ try:
     df_dpr = pd.read_excel(DPR_LINK, sheet_name=selected_sheet, skiprows=6)
     df_dpr = df_dpr.dropna(how='all', axis=1).dropna(how='all', axis=0)
 
-    # --- UPDATED: Pehla column (Sr. No) delete kar rahe hain ---
+    # Pehla column (Sr. No) remove kar rahe hain
     df_dpr = df_dpr.iloc[:, 1:] 
     df_dpr = df_dpr.reset_index(drop=True) 
 
@@ -90,8 +90,18 @@ try:
                 return f"{int(val)}%"
         return val 
 
-    # Formatting apply kar rahe hain
-    df_dpr = df_dpr.applymap(format_value)
+    # --- UPDATED: Development sheet ke liye khaas formatting logic ---
+    if selected_sheet == "Development":
+        for col in df_dpr.columns:
+            # Agar column "Commulative %" hai, tabhi percentage lagao
+            if "commulative %" in str(col).lower():
+                df_dpr[col] = df_dpr[col].apply(format_value)
+            else:
+                # Baaki columns mein sirf numbers rakho (decimal hata kar)
+                df_dpr[col] = df_dpr[col].apply(lambda x: int(x) if isinstance(x, (int, float)) and x == int(x) else x)
+    else:
+        # Baaki sheets (MCB, Resi, Ancillary) ke liye purana sab jagah % lagane wala logic
+        df_dpr = df_dpr.applymap(format_value)
    
     st.dataframe(df_dpr.head(100).style.applymap(highlight_completed), use_container_width=True)
 
