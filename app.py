@@ -148,12 +148,12 @@ try:
     st.markdown("### 📂 Contract Documents & Management")
 
     doc_data = {
-        "Contract Documents": {
-            "LOA - Jalgaon EPC - Nyati Engineer": "https://drive.google.com/file/d/12Bznwh-5rioNN08ImXhOKws0PvXVnE-b/view?usp=sharing",
-            "Part - 1 of 3": "https://drive.google.com/file/d/1O8AOt85_nufdDHUCebOjBwKzg83I6MDD/view?usp=sharing",
-            "Part - 2 of 3": "https://drive.google.com/file/d/1OUiLdnNEHztL7iJufTVa1OVhWiRWqZJZ/view?usp=sharing",
-            "Part - 3 of 3": "https://drive.google.com/file/d/1BKO-xUVF0ejwYzRCJH2xNAShhESEMPDv/view?usp=sharing"
-        },
+        # "Contract Documents": {
+        #     "LOA - Jalgaon EPC - Nyati Engineer": "https://drive.google.com/file/d/12Bznwh-5rioNN08ImXhOKws0PvXVnE-b/view?usp=sharing",
+        #     "Part - 1 of 3": "https://drive.google.com/file/d/1O8AOt85_nufdDHUCebOjBwKzg83I6MDD/view?usp=sharing",
+        #     "Part - 2 of 3": "https://drive.google.com/file/d/1OUiLdnNEHztL7iJufTVa1OVhWiRWqZJZ/view?usp=sharing",
+        #     "Part - 3 of 3": "https://drive.google.com/file/d/1BKO-xUVF0ejwYzRCJH2xNAShhESEMPDv/view?usp=sharing"
+        # },
         # "Extension Of Time": {
         #     "NECPL letter Jalgaon EOT": "https://drive.google.com/file/d/1K6OY5c8N0lSpgRZWitTJo_xvH3QapbuB/view?usp=sharing",
         #     "Submission of EOT - 02 for GMC Jalgaon": "https://drive.google.com/file/d/10fOjLmAXeMjvnh8Kq3OBHEMt_sxxs4xF/view?usp=sharing"
@@ -167,10 +167,10 @@ try:
         #     "Extra Claim Recieveing": "https://drive.google.com/file/d/1Xk9l18lXqc6JlEsp-bewTDvUEDdqUlok/view?usp=sharing",
         #     "HSCC Reply on Various Claim": "https://drive.google.com/file/d/1D1mQs7g83EFEOKFx4pFh-ZpxBEUSb3Mg/view?usp=sharing",
         # },
-        "Outstanding Payment": {
-            "B0074 - Reminder of release of Hold": "https://drive.google.com/file/d/1EHlgQ2eh80RCcwIdY0XNlhvGMEsJzpUa/view?usp=sharing",
-            "Hold 6.8075": "https://drive.google.com/file/d/1BqWknz297vdGt2m7g55OoGbmRwuNA46b/view?usp=sharing"
-        },
+        # "Outstanding Payment": {
+        #     "B0074 - Reminder of release of Hold": "https://drive.google.com/file/d/1EHlgQ2eh80RCcwIdY0XNlhvGMEsJzpUa/view?usp=sharing",
+        #     "Hold 6.8075": "https://drive.google.com/file/d/1BqWknz297vdGt2m7g55OoGbmRwuNA46b/view?usp=sharing"
+        # },
         # "Other": {
            
         # }
@@ -261,4 +261,5 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
+
 
