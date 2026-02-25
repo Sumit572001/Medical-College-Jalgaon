@@ -17,7 +17,54 @@ st.markdown("""
     footer {visibility: hidden;}
     [data-testid="stToolbar"] {visibility: hidden !important;}
     .block-container {padding-top: 1rem !important;}
+    
+    /* Metrics ka size */
     [data-testid="stMetricValue"] { font-size: 24px !important; font-weight: 600 !important; }
+
+    /* --- Main Title --- */
+    h1 {
+        font-size: 40px !important;
+        font-weight: 800 !important;
+        color: #000000 !important;
+        text-align: center !important;
+        margin-top: 10px !important;
+        text-transform: uppercase !important;
+    }
+
+    /* Baki headers */
+    h2, h3, [data-testid="stMarkdownContainer"] h3 {
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+        font-family: 'Arial', sans-serif !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* --- 🔴 RED HIGHLIGHT: Categories (Bold) --- */
+    [data-testid="stExpander"] p {
+        font-size: 20px !important;
+        font-weight: 650 !important; 
+        color: #000000 !important;
+    }
+
+    /* --- 🔵 BLUE HIGHLIGHT: PDF Buttons (Normal Weight & Full Width) --- */
+    /* Left alignment wala sara code yahan se delete kar diya hai */
+    div[data-testid="stLinkButton"] {
+        width: 100% !important;
+    }
+
+    div[data-testid="stLinkButton"] p {
+        font-weight: 400 !important; /* Text normal rahega */
+    }
+
+    /* Selectbox label size */
+    [data-testid="stWidgetLabel"] p {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        color: #000000 !important;
+    }
+    
+    hr { margin-top: 1rem !important; margin-bottom: 1.5rem !important; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -25,7 +72,8 @@ header_col1, header_col2, header_col3 = st.columns([1, 4, 1])
 with header_col1:
     st.image("https://www.govtjobsblog.in/wp-content/uploads/2023/08/HSCC.png", width=120) 
 with header_col2:
-    st.markdown("<h1 style='text-align: center; margin-top: -10px;'> Medical College Jalgaon</h1>", unsafe_allow_html=True)
+    # margin-top ko 10px karke niche shift kiya hai taaki logos ke saath center alignment ho jaye
+    st.markdown("<h1 style='text-align: center; margin-top: 10px;'>GOVERNMENT MEDICAL COLLEGE, JALGAON</h1>", unsafe_allow_html=True)
 with header_col3:
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_SCCFqzFBiku7nsc76ytomhXnvIZ6rrHBQQ&s", width=120)
 
@@ -49,14 +97,57 @@ try:
     s1.metric("Client Name", "HSCC (India) Limited", "Project Management")
     s2.metric("Contractor Name", "Nyati Engineers & Consultants Pvt. Ltd. (NECPL)", "Project Execution")
 
+    # --- CONTRACT DOCUMENT & MANAGEMENT (Nested Dropdown Style) ---
+    st.divider()
+    st.markdown("### 📂 Contract Documents & Management")
+
+    doc_data = {
+        "Contract Documents": {
+            "LOA - Jalgaon EPC - Nyati Engineer": "https://drive.google.com/file/d/12Bznwh-5rioNN08ImXhOKws0PvXVnE-b/view?usp=sharing",
+            "Part - 1 of 3": "https://drive.google.com/file/d/1O8AOt85_nufdDHUCebOjBwKzg83I6MDD/view?usp=sharing",
+            "Part - 2 of 3": "https://drive.google.com/file/d/1OUiLdnNEHztL7iJufTVa1OVhWiRWqZJZ/view?usp=sharing",
+            "Part - 3 of 3": "https://drive.google.com/file/d/1BKO-xUVF0ejwYzRCJH2xNAShhESEMPDv/view?usp=sharing"
+        },
+        "Extension Of Time": {
+            "NECPL letter Jalgaon EOT": "https://drive.google.com/file/d/1K6OY5c8N0lSpgRZWitTJo_xvH3QapbuB/view?usp=sharing",
+            "Submission of EOT - 02 for GMC Jalgaon": "https://drive.google.com/file/d/10fOjLmAXeMjvnh8Kq3OBHEMt_sxxs4xF/view?usp=sharing"
+        },
+        "Escalation": {
+            "GMCH Jalgaon - Contract Amendment": "https://drive.google.com/file/d/1jBPBZkF7qeCZWsSfizAf-7G-tTlgGS_T/view?usp=sharing",
+            "HSCC Escalation letter": "https://drive.google.com/file/d/14UgaSlAvMADSC1TSIdFTx9S5RfCiUuQT/view?usp=sharing",
+            "GMCH Jalgaon - Escalation Request": "https://drive.google.com/file/d/1yOCh2ucWHWYQadceQxf7z-onz5HVjUUD/view?usp=sharing"
+        },
+        "Additional Claim": {
+            "Extra Claim Recieveing": "https://drive.google.com/file/d/1Xk9l18lXqc6JlEsp-bewTDvUEDdqUlok/view?usp=sharing",
+            "HSCC Reply on Various Claim": "https://drive.google.com/file/d/1D1mQs7g83EFEOKFx4pFh-ZpxBEUSb3Mg/view?usp=sharing",
+        },
+        "Outstanding Payment": {
+            "B0074 - Reminder of release of Hold": "https://drive.google.com/file/d/1EHlgQ2eh80RCcwIdY0XNlhvGMEsJzpUa/view?usp=sharing",
+            "Hold 6.8075": "https://drive.google.com/file/d/1BqWknz297vdGt2m7g55OoGbmRwuNA46b/view?usp=sharing"
+        },
+        "Other": {
+           
+        }
+    }
+
+    # Sabhi categories ko ek row mein ya vertical list mein dikhane ke liye
+    # Isme har category ke side mein ek chota arrow (dropdown) hoga
+    for category, files in doc_data.items():
+        with st.expander(f" {category}"): # Yahan arrow aur naam dono hain
+            for file_name, link in files.items():
+                # Link button jo direct file kholega
+                st.link_button(f"📄 {file_name}", link, use_container_width=True)
+
     st.divider()
 
     xls_dpr = pd.ExcelFile(DPR_LINK)
     show_sheets = ["MCB & HB", "Residential", "Ancillary", "Development"]
-    available_sheets = [s for s in xls_dpr.sheet_names if s.strip() in show_sheets]
+    
+    # Yahan se 's' hata diya gaya hai, ab error nahi aayega
+    available_sheets = [sheet for sheet in xls_dpr.sheet_names if sheet.strip() in show_sheets]
     
     if not available_sheets:
-        available_sheets = [s for s in xls_dpr.sheet_names if s.strip() not in ["Priority", "Development DPR"]]
+        available_sheets = [sheet for sheet in xls_dpr.sheet_names if sheet.strip() not in ["Priority", "Development DPR"]]
 
     selected_sheet = st.selectbox("📂 Select Building View", available_sheets)
     
@@ -91,7 +182,6 @@ try:
 
     if selected_sheet == "Development":
         for col in df_dpr.columns:
-           
             if "commulative %" in str(col).lower():
                 df_dpr[col] = df_dpr[col].apply(format_value)
             else:
