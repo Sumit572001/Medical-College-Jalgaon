@@ -11,13 +11,10 @@ DPR_LINK = f"https://docs.google.com/spreadsheets/d/{DPR_ID}/export?format=xlsx"
 DLR_LINK = f"https://docs.google.com/spreadsheets/d/{DLR_ID}/export?format=xlsx"
 
 def check_password():
-    """Returns `True` if the user had the correct password."""
-
     def password_entered():
-        """Checks whether a password entered by the user is correct."""
-        if st.session_state["password"] == "hscc@nyati2026":
+        if st.session_state["password_input"] == "hscc@nyati2026":
             st.session_state["password_correct"] = True
-            del st.session_state["password"]
+            del st.session_state["password_input"]
         else:
             st.session_state["password_correct"] = False
 
@@ -25,16 +22,29 @@ def check_password():
         st.markdown("<br><br>", unsafe_allow_html=True)
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            st.info("🔐 Please enter password to view GMC Jalgaon MIS.")
-            st.text_input("Password", type="password", on_change=password_entered, key="password")
+            st.info("🔐 Please enter key to view GMC Jalgaon MIS.")
+            st.text_input(
+                "Enter Access Key", 
+                type="password", 
+                on_change=password_entered, 
+                key="password_input",
+                help="Enter the project security key",
+                autocomplete="new-password" 
+            )
         return False
     
     elif not st.session_state["password_correct"]:
         st.markdown("<br><br>", unsafe_allow_html=True)
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            st.error("🚫 Incorrect Password. Please try again.")
-            st.text_input("Password", type="password", on_change=password_entered, key="password")
+            st.error("🚫 Incorrect Key. Please try again.")
+            st.text_input(
+                "Enter Access Key", 
+                type="password", 
+                on_change=password_entered, 
+                key="password_input",
+                autocomplete="new-password"
+            )
         return False
     
     else:
