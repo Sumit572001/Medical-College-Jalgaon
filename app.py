@@ -120,7 +120,7 @@ header_col1, header_col2, header_col3 = st.columns([1, 4, 1])
 with header_col1:
     st.image("https://www.govtjobsblog.in/wp-content/uploads/2023/08/HSCC.png", width=120) 
 with header_col2:
-    st.markdown("<h1 style='text-align: center; margin-top: 10px;'>GOVERMENT MEDICAL COLLEGE, JALGAON</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; margin-top: 10px;'>GOVERNMENT MEDICAL COLLEGE, JALGAON</h1>", unsafe_allow_html=True)
 with header_col3:
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_SCCFqzFBiku7nsc76ytomhXnvIZ6rrHBQQ&s", width=120)
 
@@ -261,6 +261,7 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
+
 
 
 
