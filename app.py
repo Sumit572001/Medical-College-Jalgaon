@@ -137,7 +137,7 @@ try:
     
     m1, m2, m3 = st.columns(3)
     m1.metric("Plot Area", "66.29 Acres", "Total Site")
-    m2.metric("Overall Progress", "88%", "MSP Linked")
+    m2.metric("Overall Progress", "88%", "Percentage")
     m3.metric("Total Manpower", "432 Pax", "Live Updates")
 
     s1, s2 = st.columns(2)
@@ -261,6 +261,7 @@ try:
 except Exception as e:
     st.error(f"⚠️ Syncing Error: {e}")
     st.info("Bhai, check kijiye ki dono Google Sheets 'Anyone with the link' par set hain.")
+
 
 
 
